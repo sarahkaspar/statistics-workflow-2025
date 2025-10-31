@@ -104,8 +104,14 @@ ggplot(paired_mice, aes(x=Time, y=Bodyweight)) +
 
 We see a trend that after one month, the mice might be a bit heavier. The difference in means is $2.06\,g$, but due to the high variance, a non-paired two-sample t-test is not significant ($p=0.31$).
 
+```{r echo=FALSE}
+before <- paired_mice %>% filter(Time=="before") %>% pull(Bodyweight)
+after <- paired_mice %>% filter(Time=="after") %>% pull(Bodyweight)
+```
+
+Here is the test run in R: 
 ```{r}
-t.test(Bodyweight ~ Time, data=paired_mice, paired=FALSE)
+t.test(before, after, data=paired_mice, paired=FALSE)
 ```
 
 
@@ -149,7 +155,7 @@ The paired t-test is based on the individual difference between paired data poin
 The estimated effect size, namely the weight difference, stays the same. But the p-value drops dramatically, as you can see in the below code:
 
 ```{r}
-t.test(Bodyweight ~ Time, data=paired_mice, paired=TRUE)
+t.test(before, after, data=paired_mice, paired=TRUE)
 ```
 
 ## Pairing increases power
@@ -163,61 +169,6 @@ The reason is simple: There are two sources of randomness in the data:
 
 In the paired design, we can control for the latter of these sources of noise.  
 
-
-
-:::::::::::::::: challenge
-# Diving seals
-
-(This exercise is from Whitlock and Schluter (2015).)
-
-
-Weddell Seals take long, exhausting dives to feed on fish. Researchers wanted to test whether the seals' exhaustion comes from diving alone, or whether feeding itself is also energetically expensive. They compared the oxygen consumption ($ml\,O_2/kg$) of feeding and non-feeding dives that lasted the same amount of time, in the same individual. 
-
-The measurements of 10 individuals are summarized in the `oxygen_data` data frame as follows:
-
-```{r setup-paired-t-test, echo=TRUE, eval=FALSE}
-oxygen_data <- data.frame(
-  type = c(rep("non-feeding",10),rep("feeding",10)),
-  individual = as.character(c(1:10,1:10)),
-  consumption = c(42.2,51.7,59.8,66.5,81.9,82.0,81.3,81.3,96.0,104.1,
-                  71.0,77.3,82.6,96.1,106.6,112.8,121.2,126.4,127.5,143.1)
-)
-```
-
-
-1. Copy the above lines of code and consider the `oxygen_data`. Can you plot the data to compare the oxygen consumption in a feeding and non-feeding dive?
-
-2. Perform a paired t-test that compares feeding and non-feeding dives. You can either combine `filter`and `pull` to extract two vectors from the data frame, or use the `t.test` in conjunction with a formula.
-
-:::::::::::::::::: solution
-
-1. plotting the data
-```{r oxygen-plot-solution, eval=FALSE}
-oxygen_data %>% 
-  ggplot(aes(x=type, y=consumption)) +
-  geom_point() +
-  geom_line(aes(group=individual))
-```
-
-2. paired t-test
-
-```{r oxygen-test-solution, eval=FALSE}
-# extract two vectors and perform the test
-feeding <- oxygen_data %>% 
-  filter(type=="feeding") %>% 
-  pull(consumption)
-nonfeeding <- oxygen_data %>% 
-  filter(type=="non-feeding") %>% 
-  pull(consumption)
-
-t.test(feeding,nonfeeding,
-       paired=TRUE)
-# OR
-t.test(consumption~type, data=oxygen_data, paired=TRUE)
-```
-
-::::::::::::::::::::::::::
-::::::::::::::::::::::::
 
 
 

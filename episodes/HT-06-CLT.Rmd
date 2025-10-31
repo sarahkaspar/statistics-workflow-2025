@@ -1,5 +1,5 @@
 ---
-title: "The distribution of t according to the Central Limit Theorem"
+title: "The distribution of t"
 teaching: 7
 exercises: 0
 ---
@@ -19,6 +19,10 @@ exercises: 0
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 
+### The central limit theorem
+
+Please watch [this 3 min video](https://www.youtube.com/watch?v=jvoxEYmQHNM) to understand what the Central limit theorem is - explained with bunnies and dragons.
+
 ### Calculate a p-value using the central limit theorem
 
 Let me sum up what we know now:  
@@ -28,40 +32,46 @@ Let me sum up what we know now:
 - Moreover, the central limit theorem tells us that, if high fat diet mice in general don't differ from $\mu_0$ in their weight, we can expect $t$ to come from a standard normal distribution.  
 
 This means, that if we sample again and again (i.e. the experiment where 20 mice were fed with special diet and weighed, and a $t$ was calculated), we should measure a different $t$ each time, and plotting the a histogram or density of $t$s will give a Gaussian bell shape.  
-This is enough knowledge to calculate a p-value. You can do this :) 
+
+### The distribution of t in practice
+
+In theory, this would be enough to calculate a p-value, but sometimes the devil is in the details. 
+The Central Limit Theorem tells us that $t$ will behave like drawn from a normal distribution "if we have enough data points". So do we have enough data points in our example to be able to use it? 
+It turns out in practice that for samples that have less than ~30 data points, the CLT doesn't hold, and the values of t that we calculate from the data, don’t follow a normal distribution.
+
+The distribution of $t$s looks perfectly normal "in the middle", but not at the *tails*: We say that the distribution has *heavy tails*, because $t$ tends to take extreme values (extremely small or extremely large) more often than we would expect from a normal distribution.  
+
+The good news is, we can still run a test on small samples, by using the *$t$-distribution* as a null distribution for $t$. This distribution looks like the normal distribution, but with heavy tails. It has one parameter, $\nu$, which specifies the degrees of freedom. Without going into detail, $\nu$ is closely connected to the number of data points (for a one-sample t-test, $\nu=N-1$). In the figure below, you see how the t-distribution changes with the sample size:
 
 
-:::::::::::::::::::: challenge
+![The t distribution for different degrees of freedom (wikipedia)](fig/Student_t_pdf.svg){width="500px" alt="Graph showing t-distribution"}
 
-## The distribution of t
 
-We start with the mouse weights and the resulting $t$ from the last section. 
+For large samples, i.e. high values of $\nu$, the heavy tails vanish and the t-distribution becomes more and more similar to a normal distribution, which is exactly what the central limit theorem tells us. 
 
-1. What is the probability of observing a $t$ with value at least as high as that seen here in a standard normal distribution (normal distribution with mean 0 and standard deviation of 1)?
+**Summary:** We can use the t-distribution as a null distribution for $t$, without worrying about the sample size.  
 
-2. Remember that in this scenario the question is not whether the weight is "higher than", but "different from" $\mu_0$. How do you have to adapt the above calculation to make this a two-sided test?
 
-:::::::::::::::: solution
+### Calculating the p-value using the t-distribution
 
-1. 
-
-```{r p-val-from-clt-solution}
-weights <- c(31.41, 28.29, 22.82, 26.07, 31.97, 22.60, 31.47, 29.18, 22.98, 23.26, 23.48, 20.88, 28.44, 30.34, 23.14, 22.80, 24.47, 39.73, 25.71, 22.74)
-mu0 <- 23.89338
-tstat <- (mean(weights) - mu0) *sqrt(length(weights)) / sd(weights) 
-pnorm(tstat, mean=0, sd=1,lower.tail=FALSE)
+For our example, you already calculated $t=2.57$ from the data for the mice on diet.
+As a reminder:
+```{r pval-normal, echo=TRUE}
+t_stat <- 2.567434
 ```
 
-2. Just multiply by 2: that gives the probability to get something larger than the observed t, or smaller than -t. Multiplying works, because the normal distribution is symmetric.
-```{r p-val-from-clt-two-sided-solution}
-pnorm(tstat, mean=0, sd=1,lower.tail=FALSE)*2
+We can now compute the p-value using the t-distribution:
+```{r p-val-t-dist-solution, eval=FALSE}
+t_stat <- 2.567434
+N <- 20
+(1-pt(t_stat,df=N-1))*2
 ```
 
+In words, we define the parameter of the t-distribution `df`, based on the number of data points. We calculate the probability of $t$ being at least $2.57$ under the t-distribution (using the function `pt`), and then we multiply the result by $2$ for making the result two-sided. 
 
-::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::
+### Conclusion
 
-
+At the end of the day, we can reject the null hypothesis that the sample mean equals $\mu_0$ at a 5% significance level. We conclude that the mice fed with the special diet have a different average weight than the known average weight of mice fed with a "normal" diet.  
 
 ### Congrats... 
 
