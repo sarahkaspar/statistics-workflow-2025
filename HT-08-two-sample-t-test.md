@@ -67,12 +67,25 @@ Let’s assume the experiment had looked a little different: Let’s say there i
 We see a trend that after one month, the mice might be a bit heavier. The difference in means is $2.06\,g$, but due to the high variance, a non-paired two-sample t-test is not significant ($p=0.31$).
 
 
+
+Here is the test run in R: 
+
 ``` r
-t.test(Bodyweight ~ Time, data=paired_mice, paired=FALSE)
+t.test(before, after, data=paired_mice, paired=FALSE)
 ```
 
-``` error
-Error in t.test.formula(Bodyweight ~ Time, data = paired_mice, paired = FALSE): cannot use 'paired' in formula method
+``` output
+
+	Welch Two Sample t-test
+
+data:  before and after
+t = -1.037, df = 27.899, p-value = 0.3086
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -6.148611  2.015965
+sample estimates:
+mean of x mean of y 
+ 24.64443  26.71076 
 ```
 
 
@@ -80,7 +93,7 @@ However, this test completely neglects the information of which two data points 
 Therefore, let's consider another plot, where each two data points that belong to the same mouse are connected with a line. We say that these data points are *paired* by the mouse identity.
 
 
-<img src="fig/HT-08-two-sample-t-test-rendered-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+<img src="fig/HT-08-two-sample-t-test-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 
 Now it seems clear that each mouse gained a small amount of weight, something that has been obscured before by the high variance of the individual mice weights.
@@ -91,11 +104,21 @@ The estimated effect size, namely the weight difference, stays the same. But the
 
 
 ``` r
-t.test(Bodyweight ~ Time, data=paired_mice, paired=TRUE)
+t.test(before, after, data=paired_mice, paired=TRUE)
 ```
 
-``` error
-Error in t.test.formula(Bodyweight ~ Time, data = paired_mice, paired = TRUE): cannot use 'paired' in formula method
+``` output
+
+	Paired t-test
+
+data:  before and after
+t = -8.9263, df = 14, p-value = 3.742e-07
+alternative hypothesis: true mean difference is not equal to 0
+95 percent confidence interval:
+ -2.562816 -1.569830
+sample estimates:
+mean difference 
+      -2.066323 
 ```
 
 ## Pairing increases power
@@ -109,64 +132,6 @@ The reason is simple: There are two sources of randomness in the data:
 
 In the paired design, we can control for the latter of these sources of noise.  
 
-
-
-:::::::::::::::: challenge
-# Diving seals
-
-(This exercise is from Whitlock and Schluter (2015).)
-
-
-Weddell Seals take long, exhausting dives to feed on fish. Researchers wanted to test whether the seals' exhaustion comes from diving alone, or whether feeding itself is also energetically expensive. They compared the oxygen consumption ($ml\,O_2/kg$) of feeding and non-feeding dives that lasted the same amount of time, in the same individual. 
-
-The measurements of 10 individuals are summarized in the `oxygen_data` data frame as follows:
-
-
-``` r
-oxygen_data <- data.frame(
-  type = c(rep("non-feeding",10),rep("feeding",10)),
-  individual = as.character(c(1:10,1:10)),
-  consumption = c(42.2,51.7,59.8,66.5,81.9,82.0,81.3,81.3,96.0,104.1,
-                  71.0,77.3,82.6,96.1,106.6,112.8,121.2,126.4,127.5,143.1)
-)
-```
-
-
-1. Copy the above lines of code and consider the `oxygen_data`. Can you plot the data to compare the oxygen consumption in a feeding and non-feeding dive?
-
-2. Perform a paired t-test that compares feeding and non-feeding dives. You can either combine `filter`and `pull` to extract two vectors from the data frame, or use the `t.test` in conjunction with a formula.
-
-:::::::::::::::::: solution
-
-1. plotting the data
-
-``` r
-oxygen_data %>% 
-  ggplot(aes(x=type, y=consumption)) +
-  geom_point() +
-  geom_line(aes(group=individual))
-```
-
-2. paired t-test
-
-
-``` r
-# extract two vectors and perform the test
-feeding <- oxygen_data %>% 
-  filter(type=="feeding") %>% 
-  pull(consumption)
-nonfeeding <- oxygen_data %>% 
-  filter(type=="non-feeding") %>% 
-  pull(consumption)
-
-t.test(feeding,nonfeeding,
-       paired=TRUE)
-# OR
-t.test(consumption~type, data=oxygen_data, paired=TRUE)
-```
-
-::::::::::::::::::::::::::
-::::::::::::::::::::::::
 
 
 
