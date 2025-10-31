@@ -1,0 +1,71 @@
+---
+title: "The distribution of t according to the Central Limit Theorem"
+teaching: 7
+exercises: 0
+---
+
+:::::::::::::::::::::::::::::::::::::: questions 
+
+- What is the central limit theorem?
+- What does it predict for the distribution of $t$?
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: objectives
+
+- Introduce the Central limit theorem.
+- Explain that it gives a theoretical distribution for $t$.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+### Calculate a p-value using the central limit theorem
+
+Let me sum up what we know now:  
+
+- We have a sample of mice weights and a weight $\mu_0$ that we compare these weights to. We want to know whether the average weight differs from $\mu_0$.  
+- We calculated $t$ for this specific sample. $t$ is a scaled difference between sample mean and $\mu_0$. In case the sample mean is the same as $\mu_0$, $t$ should be close to zero.  
+- Moreover, the central limit theorem tells us that, if high fat diet mice in general don't differ from $\mu_0$ in their weight, we can expect $t$ to come from a standard normal distribution.  
+
+This means, that if we sample again and again (i.e. the experiment where 20 mice were fed with special diet and weighed, and a $t$ was calculated), we should measure a different $t$ each time, and plotting the a histogram or density of $t$s will give a Gaussian bell shape.  
+This is enough knowledge to calculate a p-value. You can do this :) 
+
+
+:::::::::::::::::::: challenge
+
+## The distribution of t
+
+We start with the mouse weights and the resulting $t$ from the last section. 
+
+1. What is the probability of observing a $t$ with value at least as high as that seen here in a standard normal distribution (normal distribution with mean 0 and standard deviation of 1)?
+
+2. Remember that in this scenario the question is not whether the weight is "higher than", but "different from" $\mu_0$. How do you have to adapt the above calculation to make this a two-sided test?
+
+:::::::::::::::: solution
+
+1. 
+
+```{r p-val-from-clt-solution}
+weights <- c(31.41, 28.29, 22.82, 26.07, 31.97, 22.60, 31.47, 29.18, 22.98, 23.26, 23.48, 20.88, 28.44, 30.34, 23.14, 22.80, 24.47, 39.73, 25.71, 22.74)
+mu0 <- 23.89338
+tstat <- (mean(weights) - mu0) *sqrt(length(weights)) / sd(weights) 
+pnorm(tstat, mean=0, sd=1,lower.tail=FALSE)
+```
+
+2. Just multiply by 2: that gives the probability to get something larger than the observed t, or smaller than -t. Multiplying works, because the normal distribution is symmetric.
+```{r p-val-from-clt-two-sided-solution}
+pnorm(tstat, mean=0, sd=1,lower.tail=FALSE)*2
+```
+
+
+::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::
+
+
+
+### Congrats... 
+
+...the worst part is over! If you could follow until here, you understood the essence of the t-test. Everything that follows is just practical details. 
+
+![](fig/celebrate_pngwing.com.png){width="800px" alt="picture of fireworks"}
+
