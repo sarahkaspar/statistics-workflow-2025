@@ -1,74 +1,19 @@
-# The Carpentries Workbench Template R Markdown Lesson
+## About this lesson
 
-This lesson is a template lesson that uses [The Carpentries Workbench][workbench].
+This lesson was condensed from two existing lessons on [statistical distributions](https://sarahkaspar.github.io/biostatistics-course/) and [hypothesis testing](https://sarahkaspar.github.io/hypothesis-testing/instructor/index.html). It is created to serve as theoretical background for a live coding session to be delivered at EMBL. 
 
-## Note about lesson life cycle stage
-Although the `config.yaml` states the life cycle stage as pre-alpha, **the template is stable and ready to use**. The life cycle stage is preset to `"pre-alpha"` as this setting is appropriate for new lessons initialised using the template.
+The goal of the live session is to walk you through a workflow of inspecting the a data set and running a simple hypothesis test on it. In the session we will 
 
-## Create a new repository from this template
+- visualize the raw data
+- visualize the distribution of the data to check for the assumption that it follows a normal distribution
+- run a t-test
+- add the p-value to the raw data plot
 
-To use this template to start a new lesson repository, 
-make sure you're logged into Github.   
-Visit https://github.com/carpentries/workbench-template-rmd/generate
-and follow the instructions.
-Checking the 'Include all branches' option will save some time waiting for the first website build
-when your new repository is initialised.
+While we assume that you have some basic coding skills in either R or Python, you can go through this lesson to understand 
 
-If you have any questions, contact [@tobyhodges](https://github.com/tobyhodges)
-
-## Configure a new lesson
-
-Follow the steps below to
-complete the initial configuration of a new lesson repository built from this template:
-
-1. **Make sure GitHub Pages is activated:**
-   navigate to _Settings_,
-   select _Pages_ from the left sidebar,
-   and make sure that `gh-pages` is selected as the branch to build from.
-   If no `gh-pages` branch is available, check _Actions_ to see if the first
-   website build workflows are still running.
-   The branch should become available when those have completed.
-1. **Adjust the `config.yaml` file:**
-   this file contains global parameters for your lesson site.
-   Individual fields within the file are documented with comments (beginning with `#`)
-   At minimum, you should adjust all the fields marked 'FIXME':
-   - `title`
-   - `created`
-   - `keywords`
-   - `life_cycle` (the default, _pre-alpha_, is the appropriate for brand new lessons)
-   - `contact`
-1. **Annotate the repository** with site URL and topic tags:
-   navigate back to the repository landing page and
-   click on the gear wheel/cog icon (similar to ⚙️) 
-   at the top-right of the _About_ box.
-   Check the "Use your GitHub Pages website" option,
-   and [add some keywords and other annotations to describe your lesson](https://cdh.carpentries.org/the-carpentries-incubator.html#topic-tags)
-   in the _Topics_ field.
-   At minimum, these should include:
-   - `lesson`
-   - the life cycle of the lesson (e.g. `pre-alpha`)
-   - the human language the lesson is written in (e.g. `deutsch`)
-1. **Adjust the name of the `.Rproj` file.**
-   It is simplest to make this match the name of the repository.
-1. **Adjust the 
-   `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, and `LICENSE.md` files**
-   as appropriate for your project.
-   -  `CODE_OF_CONDUCT.md`: 
-      if you are using this template for a project outside The Carpentries,
-      you should adjust this file to describe 
-      who should be contacted with Code of Conduct reports,
-      and how those reports will be handled.
-   -  `CONTRIBUTING.md`:
-      depending on the current state and maturity of your project,
-      the contents of the template Contributing Guide may not be appropriate.
-      You should adjust the file to help guide contributors on how best
-      to get involved and make an impact on your lesson.
-   -  `LICENSE.md`:
-      in line with the terms of the CC-BY license,
-      you should ensure that the copyright information 
-      provided in the license file is accurate for your project.
-1. **Update this README with 
-   [relevant information about your lesson](https://carpentries.github.io/lesson-development-training/collaborating-newcomers.html#readme)**
-   and delete this section.
-
-[workbench]: https://carpentries.github.io/sandpaper-docs/
+- what statistical distributions are
+- the properties of the normal distribution
+- how histogram, ECDF and QQ-plot allow you to compare your data to a normal distribution
+- what the idea behind a hypothesis test is
+- what a t-test is
+- what one-sided/two-sided and unpaired/paired tests are.
