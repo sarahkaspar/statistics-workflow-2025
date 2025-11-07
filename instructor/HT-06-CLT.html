@@ -391,7 +391,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>The distribution of t</h1>
-        <p>Last updated on 2025-10-31 |
+        <p>Last updated on 2025-11-07 |
 
         <a href="https://github.com/carpentries/workbench-template-rmd/edit/main/episodes/HT-06-CLT.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -468,9 +468,11 @@ perfectly normal “in the middle”, but not at the <em>tails</em>: We say
 that the distribution has <em>heavy tails</em>, because <span class="math inline">\(t\)</span> tends to take extreme values (extremely
 small or extremely large) more often than we would expect from a normal
 distribution.</p>
-<p>The good news is, we can still run a test on small samples, by using
-the <em><span class="math inline">\(t\)</span>-distribution</em> as a
-null distribution for <span class="math inline">\(t\)</span>. This
+<p>So no, in our example, we shouldn’t use the normal distribution as
+our null distribution.</p>
+<p>The good news is, we can still run a test on small samples as in our
+example, by using the <em><span class="math inline">\(t\)</span>-distribution</em> as a null
+distribution for <span class="math inline">\(t\)</span>. This
 distribution looks like the normal distribution, but with heavy tails.
 It has one parameter, <span class="math inline">\(\nu\)</span>, which
 specifies the degrees of freedom. Without going into detail, <span class="math inline">\(\nu\)</span> is closely connected to the number of
@@ -503,6 +505,11 @@ diet. As a reminder:</p>
 <code class="sourceCode R"><span><span class="va">t_stat</span> <span class="op">&lt;-</span> <span class="fl">2.567434</span></span>
 <span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">20</span></span>
 <span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="fu">pt</span><span class="op">(</span><span class="va">t_stat</span>,df<span class="op">=</span><span class="va">N</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">*</span><span class="fl">2</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] 0.0188482</code></pre>
 </div>
 <p>In words, we define the parameter of the t-distribution
 <code>df</code>, based on the number of data points. We calculate the
@@ -590,8 +597,8 @@ any links that you are not going to use.
   "url": "https://carpentries.github.io/workbench-template-rmd/instructor/HT-06-CLT.html",
   "identifier": "https://carpentries.github.io/workbench-template-rmd/instructor/HT-06-CLT.html",
   "dateCreated": "2025-10-31",
-  "dateModified": "2025-10-31",
-  "datePublished": "2025-11-04"
+  "dateModified": "2025-11-07",
+  "datePublished": "2025-11-07"
 }
 
   </script><script>
