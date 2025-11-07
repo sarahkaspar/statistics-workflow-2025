@@ -37,11 +37,13 @@ This means, that if we sample again and again (i.e. the experiment where 20 mice
 
 In theory, this would be enough to calculate a p-value, but sometimes the devil is in the details. 
 The Central Limit Theorem tells us that $t$ will behave like drawn from a normal distribution "if we have enough data points". So do we have enough data points in our example to be able to use it? 
-It turns out in practice that for samples that have less than ~30 data points, the CLT doesn't hold, and the values of t that we calculate from the data, don’t follow a normal distribution.
+It turns out in practice that for samples that have less than ~30 data points, the CLT doesn't hold, and the values of t that we calculate from the data, don’t follow a normal distribution. 
 
-The distribution of $t$s looks perfectly normal "in the middle", but not at the *tails*: We say that the distribution has *heavy tails*, because $t$ tends to take extreme values (extremely small or extremely large) more often than we would expect from a normal distribution.  
+The distribution of $t$s looks perfectly normal "in the middle", but not at the *tails*: We say that the distribution has *heavy tails*, because $t$ tends to take extreme values (extremely small or extremely large) more often than we would expect from a normal distribution.
 
-The good news is, we can still run a test on small samples, by using the *$t$-distribution* as a null distribution for $t$. This distribution looks like the normal distribution, but with heavy tails. It has one parameter, $\nu$, which specifies the degrees of freedom. Without going into detail, $\nu$ is closely connected to the number of data points (for a one-sample t-test, $\nu=N-1$). In the figure below, you see how the t-distribution changes with the sample size:
+So no, in our example, we shouldn't use the normal distribution as our null distribution. 
+
+The good news is, we can still run a test on small samples as in our example, by using the *$t$-distribution* as a null distribution for $t$. This distribution looks like the normal distribution, but with heavy tails. It has one parameter, $\nu$, which specifies the degrees of freedom. Without going into detail, $\nu$ is closely connected to the number of data points (for a one-sample t-test, $\nu=N-1$). In the figure below, you see how the t-distribution changes with the sample size:
 
 
 ![The t distribution for different degrees of freedom (wikipedia)](fig/Student_t_pdf.svg){width="500px" alt="Graph showing t-distribution"}
@@ -61,7 +63,7 @@ t_stat <- 2.567434
 ```
 
 We can now compute the p-value using the t-distribution:
-```{r p-val-t-dist-solution, eval=FALSE}
+```{r p-val-t-dist-solution, eval=TRUE}
 t_stat <- 2.567434
 N <- 20
 (1-pt(t_stat,df=N-1))*2
